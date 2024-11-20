@@ -1,0 +1,31 @@
+const { DataTypes } = require('sequelize');
+const sequelize = require('../Config/dbConnect'); 
+
+const Services = sequelize.define('Services', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: false, 
+  },
+  lang: {
+    type: DataTypes.ENUM('ar', 'en'),
+    allowNull: false,
+    defaultValue: 'en', 
+  }
+}, {
+  timestamps: false, 
+});
+
+module.exports = Services;
