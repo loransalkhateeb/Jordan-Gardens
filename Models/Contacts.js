@@ -1,25 +1,27 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Config/dbConnect');
 
-const Blog = sequelize.define('Blog', {
+const Contact = sequelize.define('Contact', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  title: {
-    type: DataTypes.STRING, 
-    allowNull: false,
-  },
-  image: {
-    type: DataTypes.STRING, 
-    allowNull: false,
-  },
-  description: {
+  content: {
     type: DataTypes.TEXT, 
     allowNull: false,
   },
-}, 
-);
+  icon: {
+    type: DataTypes.STRING, 
+    allowNull: false,
+  },
+  lang: {
+    type: DataTypes.ENUM('ar', 'en'),
+    allowNull: false,
+    defaultValue: 'en',
+  },
+}, {
+  timestamps: false,
+});
 
-module.exports = Blog;
+module.exports = Contact;

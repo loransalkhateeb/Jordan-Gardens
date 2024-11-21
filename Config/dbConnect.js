@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
+
 const sequelize = new Sequelize(
   'jordan_gardens',  
   'root',  
@@ -11,6 +12,10 @@ const sequelize = new Sequelize(
     logging: false,  
   }
 );
+
+
+
+
 
 const testConnection = async () => {
   try {

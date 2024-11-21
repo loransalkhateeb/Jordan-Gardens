@@ -8,18 +8,23 @@ const AllContents = sequelize.define('AllContents', {
     autoIncrement: true,
   },
   title: {
-    type: DataTypes.STRING, 
+    type: DataTypes.STRING,
     allowNull: false,
   },
   link: {
-    type: DataTypes.STRING, 
+    type: DataTypes.STRING,
     allowNull: false,
     validate: {
       isUrl: true, 
     },
   },
+  lang: {
+    type: DataTypes.ENUM('ar', 'en'),  
+    allowNull: false,
+    defaultValue: 'en',  
+  },
 }, {
-  timestamps: false,
+  timestamps: false, 
 });
 
 module.exports = AllContents;

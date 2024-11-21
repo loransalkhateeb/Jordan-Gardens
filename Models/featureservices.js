@@ -1,19 +1,14 @@
-
+// Models/featureservices.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Config/dbConnect');
-const FeatureServices = require('./featureservices'); 
 
-const Services = sequelize.define('Services', {
+const FeatureServices = sequelize.define('FeatureServices', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
   title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  description: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -26,9 +21,14 @@ const Services = sequelize.define('Services', {
     allowNull: false,
     defaultValue: 'en',
   },
+  service_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Services', 
+      key: 'id',
+    },
+  },
 }, { timestamps: false });
 
-Services.hasMany(FeatureServices, { foreignKey: 'service_id', onDelete: 'CASCADE' });
-FeatureServices.belongsTo(Services, { foreignKey: 'service_id' });
-
-module.exports = Services;
+module.exports = FeatureServices;
