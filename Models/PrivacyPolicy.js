@@ -11,8 +11,13 @@ const PrivacyPolicy = sequelize.define('PrivacyPolicy', {
     type: DataTypes.TEXT, 
     allowNull: false,
   },
+  lang: {
+    type: DataTypes.ENUM('ar', 'en'),
+    allowNull: false,
+    defaultValue: 'en',
+  },
 }, {
-  timestamps: false, 
+  timestamps: false,
 });
 
 module.exports = PrivacyPolicy;

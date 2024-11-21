@@ -7,15 +7,28 @@ require('dotenv').config();
 const heroRoutes = require('./Routes/heroRoutes');
 const aboutRoutes = require('./Routes/aboutroutes');
 const servicesRoutes = require('./Routes/servicesroutes');
+const featureservices = require('./Routes/featureservicesroutes')
+const advantageRoutes = require('./Routes/advantagesroutes')
+const projectsimages = require('./Routes/ProjectsImages')
+const projects = require('./Routes/projectsroutes')
+const blogsRoutes = require('./Routes/blogRoutes')
+const feeBacksRoutes = require('./Routes/FeedBacksRoutes')
+const contactsRoutes = require('./Routes/ContactsRoutes')
+const AllContentsRoutres = require('./Routes/AllContentsRoutes')
+const PrivacyPolicyRoutes = require('./Routes/PrivacyPolicyRoutes')
+
 require('./Models/User');
 require('./Models/Hero');
 require('./Models/About');
-require('./Models/Services');
+require('./Models/services');
 require('./Models/Project');
-require('./Models/Blog');
+require('./Models/blogs');
 require('./Models/ContactUs');
 require('./Models/Careers');
 require('./Models/About')
+require('./Models/featureservices')
+require('./Models/advantages')
+
 const app = express();
 
 app.use(cors());
@@ -24,6 +37,22 @@ app.use('/users', userRoutes);
 app.use('/heroes', heroRoutes);
 app.use('/about',aboutRoutes)
 app.use('/services',servicesRoutes)
+app.use('/featureservices',featureservices)
+app.use('/advantages',advantageRoutes)
+app.use('/projectsimages',projectsimages)
+app.use('/projects',projects)
+app.use('/blogs',blogsRoutes)
+app.use('/feedbacks',feeBacksRoutes)
+app.use('/contacts',contactsRoutes)
+app.use('/allcontents',AllContentsRoutres)
+app.use('/privacypolicy',PrivacyPolicyRoutes)
+
+
+
+
+
+
+
 sequelize.sync({ force: false }).then(() => {
   console.log('Database connected and synced!');
 });
