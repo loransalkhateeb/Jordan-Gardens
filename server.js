@@ -34,7 +34,7 @@ require('./Models/Careers');
 require('./Models/About')
 require('./Models/featureservices')
 require('./Models/advantages')
-
+const path = require("path");
 const app = express();
 
 app.use(cors());
@@ -57,7 +57,7 @@ app.use('/careers',CareersRoutes)
 app.use('/choose',ChooseCompanyRoutes)
 app.use('/logoes',LogoesRoutes)
 
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 sequelize.sync({ force: false }).then(() => {
   console.log('Database connected and synced!');

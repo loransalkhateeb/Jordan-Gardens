@@ -24,30 +24,24 @@ exports.createHero = async (req, res) => {
 
     res.status(201).json({ message: 'Hero created successfully', hero: newHero });
   } catch (error) {
-    console.error(error); // طباعة الخطأ في وحدة التحكم
-    res.status(500).json({ error: 'Failed to create hero', details: error.message }); // إرسال تفاصيل الخطأ للعميل
+    console.error(error); 
+    res.status(500).json({ error: 'Failed to create hero', details: error.message }); 
   }
 };
 
 
 
 
-exports.getAllHeroes = async (req, res) => {
+exports.getAllHeros = async (req, res) => {
   try {
     const { lang } = req.params;
-    const heroes = await Hero.findAll({ where: { lang } });
 
-    
-    const heroesWithFullImagePath = heroes.map(hero => {
-      if (hero.image) {
-        hero.image = `${BASE_URL}/${hero.image}`;
-      }
-      return hero;
-    });
+    const hero = await Hero.findAll({ where: { lang } });
 
-    res.status(200).json(heroesWithFullImagePath);
+    res.status(200).json(hero);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch heroes' });
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch heros' });
   }
 };
 
