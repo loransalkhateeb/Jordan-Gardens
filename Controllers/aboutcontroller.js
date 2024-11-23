@@ -2,33 +2,30 @@ const About = require('../Models/About');
 const path = require('path');
 
 exports.createAbout = async (req, res) => {
-    try {
-      console.log('Request Body:', req.body); 
-      console.log('Uploaded File:', req.file);
-  
+  try {
       const { title, description, title_btn, link, lang } = req.body;
       let imageUrl = null;
-  
-   
+
       if (req.file) {
-        imageUrl = req.file.filename;
+          imageUrl = req.file.filename;
       }
-  
+
       const newAbout = await About.create({
-        title,
-        description,
-        title_btn,
-        link,
-        lang,
-        image: imageUrl,  
+          title,
+          description,
+          title_btn,
+          link,
+          lang,
+          image: imageUrl,
       });
-  
+
       res.status(201).json({ message: 'About created successfully', about: newAbout });
-    } catch (error) {
-      console.error('Error:', error);  
-      res.status(500).json({ error: 'Failed to create About' });
-    }
-  };
+  } catch (error) {
+      console.error('Error:', error); 
+      res.status(500).json({ error: 'Failed to create About', details: error.message }); 
+  }
+};
+
 
 exports.getAllAbouts = async (req, res) => {
   try {

@@ -1,6 +1,9 @@
 const Hero = require('../Models/Hero');
 const path = require('path');
 
+
+
+
 exports.createHero = async (req, res) => {
   try {
     const { title, description, title_btn, link, lang } = req.body;
@@ -21,20 +24,33 @@ exports.createHero = async (req, res) => {
 
     res.status(201).json({ message: 'Hero created successfully', hero: newHero });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to create hero' });
+    console.error(error); // طباعة الخطأ في وحدة التحكم
+    res.status(500).json({ error: 'Failed to create hero', details: error.message }); // إرسال تفاصيل الخطأ للعميل
   }
 };
+
+
 
 
 exports.getAllHeroes = async (req, res) => {
   try {
     const { lang } = req.params;
     const heroes = await Hero.findAll({ where: { lang } });
-    res.status(200).json(heroes);
+
+    
+    const heroesWithFullImagePath = heroes.map(hero => {
+      if (hero.image) {
+        hero.image = `${BASE_URL}/${hero.image}`;
+      }
+      return hero;
+    });
+
+    res.status(200).json(heroesWithFullImagePath);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch heroes' });
   }
 };
+
 
 
 exports.getHeroById = async (req, res) => {
