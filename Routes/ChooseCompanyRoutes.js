@@ -8,7 +8,7 @@ router.post('/createchoosecompany', multer.single('image'), ChooseCompanyControl
 
 router.get('/allchoosecompanies/:lang', ChooseCompanyController.getAllChoosesCompany);
 
-router.get('/getchoosecompanybyid/:lang/:id', ChooseCompanyController.getchoosecompayById);
+router.get('/getchoosecompanybyid/:lang/:id', ChooseCompanyController.getchoosesompanyById);
 
 router.put('/updatechoosecompany/:lang/:id', multer.single('image'), ChooseCompanyController.updateChooseCompany);
 
