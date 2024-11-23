@@ -6,7 +6,7 @@ const multer = require('../Config/multer');
 
 router.post('/createhero', multer.single('image'), heroController.createHero);
 
-router.get('/allheros/:lang', heroController.getAllHeroes);
+router.get('/allheros/:lang', heroController.getAllHeros);
 
 router.get('/getherobyid/:lang/:id', heroController.getHeroById);
 
