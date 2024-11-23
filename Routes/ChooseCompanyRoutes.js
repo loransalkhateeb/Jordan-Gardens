@@ -10,9 +10,8 @@ router.get('/allchoosecompanies/:lang', ChooseCompanyController.getAllChoosesCom
 
 router.get('/getchoosecompanybyid/:lang/:id', ChooseCompanyController.getchoosecompayById);
 
-
 router.put('/updatechoosecompany/:lang/:id', multer.single('image'), ChooseCompanyController.updateChooseCompany);
 
-router.delete('/deleteherochoosecompany/:lang/:id', ChooseCompanyController.deleteChooseCompany);
+router.delete('/deletechoosecompany/:lang/:id', ChooseCompanyController.deleteChooseCompany);
 
 module.exports = router;
