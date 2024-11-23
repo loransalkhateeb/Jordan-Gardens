@@ -92,15 +92,30 @@ exports.updateService = async (req, res) => {
 
 exports.deleteService = async (req, res) => {
   try {
-    const { id, lang } = req.params; 
-    const service = await Services.findOne({ where: { id, lang } });
+    const { id, lang } = req.params;
+    console.log(`Searching for service with id: ${id} and lang: ${lang}`);
+
+
+    const service = await Services.findOne({ 
+      where: { 
+        id, 
+        lang 
+      } 
+    });
 
     if (!service) {
-      return res.status(404).json({ error: 'Service not found for the given language' });
+      console.log("Service not found for the specified language.");
+      return res.status(404).json({ error: 'service not found for the specified language' });
     }
+
+    console.log("Service found, attempting to delete...");
     await service.destroy();
-    res.status(200).json({ message: 'Service deleted successfully' });
+    console.log("Service deleted successfully.");
+    res.status(200).json({ message: 'service deleted successfully' });
   } catch (error) {
+    console.error("Error deleting service:", error);
     res.status(500).json({ error: 'Failed to delete service' });
   }
 };
+
+
