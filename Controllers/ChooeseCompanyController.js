@@ -29,7 +29,7 @@ exports.getAllChoosesCompany = async (req, res) => {
   
       const choosecompay = await ChooeseCompanyModel.findAll({ where: { lang } });
   
-      res.status(200).json(feedbacks);
+      res.status(200).json(choosecompay);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Failed to fetch FeedBack' });
