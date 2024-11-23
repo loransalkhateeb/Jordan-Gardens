@@ -4,10 +4,14 @@ const path = require('path');
 
 exports.createService = async (req, res) => {
   try {
-    const { title, description, lang } = req.body; 
+    const { title, description, lang } = req.body;
     let imageUrl = null;
 
- 
+    if (!title || !description || !lang) {
+      return res.status(400).json({ error: 'Title, description, and language are required' });
+    }
+
+
     if (req.file) {
       imageUrl = req.file.filename; 
     }
@@ -16,11 +20,12 @@ exports.createService = async (req, res) => {
       title,
       description,
       lang,
-      image: imageUrl,
+      image: imageUrl, 
     });
 
     res.status(201).json({ message: 'Service created successfully', service: newService });
   } catch (error) {
+    console.error("Error creating service:", error); 
     res.status(500).json({ error: 'Failed to create service' });
   }
 };
