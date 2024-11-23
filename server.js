@@ -18,6 +18,9 @@ const AllContentsRoutres = require('./Routes/AllContentsRoutes')
 const PrivacyPolicyRoutes = require('./Routes/PrivacyPolicyRoutes')
 const TermsAndConditionsRoutes = require('./Routes/TermsAndConditionsRoutes')
 const CareersRoutes = require('./Routes/CareersRoutes')
+const ChooseCompanyRoutes = require('./Routes/ChooseCompanyRoutes')
+const LogoesRoutes = require('./Routes/LogoRoutes')
+
 
 
 require('./Models/User');
@@ -51,8 +54,8 @@ app.use('/allcontents',AllContentsRoutres)
 app.use('/privacypolicy',PrivacyPolicyRoutes)
 app.use('/termsandconditions',TermsAndConditionsRoutes)
 app.use('/careers',CareersRoutes)
-
-
+app.use('/choose',ChooseCompanyRoutes)
+app.use('/logoes',LogoesRoutes)
 
 
 
