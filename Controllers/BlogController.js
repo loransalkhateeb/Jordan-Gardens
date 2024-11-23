@@ -71,18 +71,23 @@ exports.updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, lang } = req.body;
-    const images = req.files ? req.files.map(file => file.filename) : null; 
+    const newImage = req.files ? req.files[0].filename : null;
+
     const blog = await Blog.findByPk(id);
 
     if (!blog) {
       return res.status(404).json({ error: 'Blog not found' });
     }
 
-
+    
     blog.title = title || blog.title;
-    blog.description = description || blog.description;
-    blog.lang = lang || blog.lang;
-    blog.images = images || blog.images;  
+    blog.description = description || blog.description; 
+    blog.lang = lang || blog.lang; 
+
+   
+    if (newImage) {
+      blog.images = newImage; 
+    }
 
     await blog.save();
 
