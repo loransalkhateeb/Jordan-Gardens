@@ -97,50 +97,49 @@ exports.getProjectById = async (req, res) => {
   
 
 
-exports.updateProject = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { title, description, lang, location, service_id } = req.body;
-
-    const project = await Project.findByPk(id);
-    if (!project) {
-      return res.status(404).json({ error: 'Project not found' });
-    }
-
-
-    const service = await Service.findByPk(service_id);
-    if (!service) {
-      return res.status(400).json({ error: 'Service not found' });
-    }
-
-    project.title = title || project.title;
-    project.description = description || project.description;
-    project.lang = lang || project.lang;
-    project.location = location || project.location;
-    project.service_id = service_id || project.service_id;
-
-    await project.save();
-
+  exports.updateProject = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { title, description, lang, location, service_id } = req.body;
   
-    if (req.files && req.files.length > 0) {
-    
-      await ProjectImage.destroy({ where: { project_id: project.id } });
-
-    
-      for (let i = 0; i < req.files.length; i++) {
-        await ProjectImage.create({
-          project_id: project.id,
-          image: req.files[i].filename
-        });
+ 
+      const project = await Project.findByPk(id);
+      if (!project) {
+        return res.status(404).json({ error: 'Project not found' });
       }
+  
+     
+      const service = await Service.findByPk(service_id);
+      if (!service) {
+        return res.status(400).json({ error: 'Service not found' });
+      }
+  
+    
+      project.title = title || project.title;
+      project.description = description || project.description;
+      project.lang = lang || project.lang;
+      project.location = location || project.location;
+      project.service_id = service_id || project.service_id;
+  
+      await project.save();
+  
+    
+      if (req.files && req.files.length > 0) {
+        for (let i = 0; i < req.files.length; i++) {
+          await ProjectImage.create({
+            project_id: project.id,
+            image: req.files[i].filename
+          });
+        }
+      }
+  
+      res.status(200).json({ message: 'Project updated successfully', project });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Failed to update project' });
     }
-
-    res.status(200).json({ message: 'Project updated successfully', project });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to update project' });
-  }
-};
+  };
+  
 
 
 exports.deleteProject = async (req, res) => {
