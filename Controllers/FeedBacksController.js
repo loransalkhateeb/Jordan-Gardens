@@ -33,7 +33,7 @@ exports.getAllFeedbacks = async (req, res) => {
       res.status(200).json(feedbacks);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Failed to fetch blogs' });
+      res.status(500).json({ error: 'Failed to fetch FeedBack' });
     }
   };
 

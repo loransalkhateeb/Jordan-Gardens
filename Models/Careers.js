@@ -23,6 +23,11 @@ const Career = sequelize.define('Career', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  lang: {
+    type: DataTypes.ENUM('ar', 'en'),
+    allowNull: false,
+    defaultValue: 'en',
+  },
 }, {
   timestamps: false, 
 });

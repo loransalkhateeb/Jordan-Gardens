@@ -8,11 +8,11 @@ router.post('/createabout', multer.single('image'), aboutController.createAbout)
 router.get('/allaboutes/:lang', aboutController.getAllAbouts);
 
 
-router.get('/get/:id/:lang', aboutController.getAboutById);
+router.get('/getaboutbyid/:id/:lang', aboutController.getAboutById);
 
 
-router.put('/update/:id/:lang', multer.single('image'), aboutController.updateAbout);
+router.put('/updateabout/:id/:lang', multer.single('image'), aboutController.updateAbout);
 
-router.delete('/delete/:id', aboutController.deleteAbout);
+router.delete('/deleteabout/:id', aboutController.deleteAbout);
 
 module.exports = router;
