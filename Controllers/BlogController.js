@@ -4,23 +4,26 @@ const Blog  = require('../Models/blogs');
 exports.createBlog = async (req, res) => {
   try {
     const { title, description, lang } = req.body;
-    const images = req.files ? req.files.map(file => file.filename) : [];
 
-  
+
+    const image = req.files && req.files[0] ? req.files[0].filename : null;
+
+
     if (!title || !description) {
       return res.status(400).json({ error: 'Title and description are required' });
     }
 
-   
+
     if (!['ar', 'en'].includes(lang)) {
       return res.status(400).json({ error: 'Language must be either "ar" or "en"' });
     }
 
+  
     const newBlog = await Blog.create({
       title,
       description,
       lang,
-      images: images.length > 0 ? images : null,
+      image: image,  
     });
 
     res.status(201).json({ message: 'Blog created successfully', blog: newBlog });
@@ -29,6 +32,7 @@ exports.createBlog = async (req, res) => {
     res.status(500).json({ error: 'Failed to create blog' });
   }
 };
+
 
 
 exports.getAllBlogs = async (req, res) => {
@@ -71,7 +75,9 @@ exports.updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, lang } = req.body;
-    const newImage = req.files ? req.files[0].filename : null;
+
+   
+    const newImage = req.file ? req.file.filename : null;
 
     const blog = await Blog.findByPk(id);
 
@@ -79,14 +85,14 @@ exports.updateBlog = async (req, res) => {
       return res.status(404).json({ error: 'Blog not found' });
     }
 
-    
     blog.title = title || blog.title;
-    blog.description = description || blog.description; 
-    blog.lang = lang || blog.lang; 
+    blog.description = description || blog.description;
+    blog.lang = lang || blog.lang;
 
-   
     if (newImage) {
-      blog.images = newImage; 
+      blog.images = newImage;
+    } else {
+      blog.images = null; 
     }
 
     await blog.save();
@@ -97,6 +103,7 @@ exports.updateBlog = async (req, res) => {
     res.status(500).json({ error: 'Failed to update blog' });
   }
 };
+
 
 
 exports.deleteBlog = async (req, res) => {
