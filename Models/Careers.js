@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../Config/dbConnect'); 
+const sequelize = require('../Config/dbConnect');
+const CareerDescription = require('./CareerDescription'); 
 
 const Career = sequelize.define('Career', {
   id: {
@@ -29,7 +30,11 @@ const Career = sequelize.define('Career', {
     defaultValue: 'en',
   },
 }, {
-  timestamps: false, 
+  timestamps: false,
 });
+
+
+Career.hasMany(CareerDescription, { foreignKey: 'career_id', onDelete: 'CASCADE' });
+CareerDescription.belongsTo(Career, { foreignKey: 'career_id' });
 
 module.exports = Career;

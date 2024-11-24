@@ -114,7 +114,6 @@ exports.getProjectById = async (req, res) => {
         return res.status(400).json({ error: 'Service not found' });
       }
   
-    
       project.title = title || project.title;
       project.description = description || project.description;
       project.lang = lang || project.lang;
@@ -122,7 +121,6 @@ exports.getProjectById = async (req, res) => {
       project.service_id = service_id || project.service_id;
   
       await project.save();
-  
     
       if (req.files && req.files.length > 0) {
         for (let i = 0; i < req.files.length; i++) {
@@ -132,7 +130,6 @@ exports.getProjectById = async (req, res) => {
           });
         }
       }
-  
       res.status(200).json({ message: 'Project updated successfully', project });
     } catch (error) {
       console.error(error);
