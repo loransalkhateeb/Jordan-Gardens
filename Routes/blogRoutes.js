@@ -4,7 +4,7 @@ const blogController = require('../Controllers/BlogController');
 const multer = require('../Config/multer'); 
 
 
-router.post('/createblog', multer.single('image'), blogController.createBlog); 
+router.post('/createblog', multer.single('image'), blogController.createBlog);
 
 
 router.get('/getallblogs/:lang', blogController.getAllBlogs);
