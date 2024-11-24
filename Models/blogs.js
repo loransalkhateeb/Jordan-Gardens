@@ -16,7 +16,7 @@ const Blog = sequelize.define('Blog', {
     allowNull: false, 
   },
   images: {
-    type: DataTypes.JSON, 
+    type: DataTypes.STRING, 
     allowNull: true, 
   },
   lang: {

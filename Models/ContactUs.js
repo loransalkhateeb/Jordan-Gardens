@@ -34,6 +34,11 @@ const ContactUs = sequelize.define('ContactUs', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  lang: {
+    type: DataTypes.ENUM('ar', 'en'),
+    allowNull: false,
+    defaultValue: 'en',  
+  },
 }, {
   timestamps: false, 
 });
