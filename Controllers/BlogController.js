@@ -71,7 +71,8 @@ exports.updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, lang } = req.body;
-    const newImage = req.files ? req.files[0].filename : null;
+    // const newImage = req.files ? req.files.filename : null;
+    const { newImage } = req.body;
 
     const blog = await Blog.findByPk(id);
 
@@ -86,7 +87,7 @@ exports.updateBlog = async (req, res) => {
 
    
     if (newImage) {
-      blog.images = newImage; 
+      blog.image = newImage; 
     }
 
     await blog.save();
