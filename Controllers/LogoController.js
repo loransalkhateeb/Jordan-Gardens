@@ -63,34 +63,28 @@ exports.getAllLogos = async (req, res) => {
 
 
   exports.updatelogo = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { title, lang } = req.body;
-      
-     
-      const image = req.files ? req.files[0].filename : null;  
-  
-     
-      const logo = await LogoModel.findByPk(id);
-  
-      if (!logo) {
-        return res.status(404).json({ error: 'Logo not found' });
-      }
-  
-    
-      logo.title = title || logo.title;  
-      logo.lang = lang || logo.lang;  
-      logo.images = image || logo.images; 
-  
-      
-      await logo.save();
-  
-     
-      res.status(200).json({ message: 'Logo updated successfully', logo });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Failed to update logo' });
+    const { id } = req.params;
+  const { description, lang } = req.body;
+
+  try {
+    const logo = await LogoModel.findByPk(id);
+    if (!logo) {
+      return res.status(404).json({ message: "logo not found" });
     }
+    const imageUrl = req.file ? `${req.file.filename}` : logo.image;
+    // Update logo fields
+    logo.description = description || logo.description;
+    logo.lang = lang || logo.lang;
+    logo.image = imageUrl; 
+
+    await logo.save();
+
+    // Return the updated logo object
+    res.status(200).json({ message: "logo updated successfully", logo });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating logo", error });
+  }
   };
   
   

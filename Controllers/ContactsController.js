@@ -64,38 +64,29 @@ exports.getAllContacts = async (req, res) => {
 
 
   exports.updateContact = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { content, lang } = req.body;
-    
-      const images = req.files ? req.files.map(file => file.filename) : [];
-  
-     
-      if (lang && !['ar', 'en'].includes(lang)) {
-        return res.status(400).json({ error: 'Invalid language' });
-      }
-  
-      
-      const contact = await Contact.findByPk(id);
-    
-      if (!contact) {
-        return res.status(404).json({ error: 'Contact not found' });
-      }
-  
-     
-      contact.content = content || contact.content;
-      contact.lang = lang || contact.lang;
-     
-      contact.images = images.length > 0 ? images : contact.images;
-  
-     
-      await contact.save();
-    
-      res.status(200).json({ message: 'Contact updated successfully', contact });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Failed to update contact' });
+    const { id } = req.params;
+  const { content, lang } = req.body;
+
+  try {
+    // Find the contact by ID
+    const contact = await Contact.findByPk(id);
+    if (!contact) {
+      return res.status(404).json({ message: "contact not found" });
     }
+    const imageUrl = req.file ? `${req.file.filename}` : contact.icon;
+    // Update contact fields
+    contact.content = content || contact.content;
+    contact.lang = lang || contact.lang;
+    contact.icon = imageUrl; 
+
+    await contact.save();
+
+    // Return the updated contact object
+    res.status(200).json({ message: "contact updated successfully", contact });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating contact", error });
+  }
   };
   
 

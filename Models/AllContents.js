@@ -14,9 +14,6 @@ const AllContents = sequelize.define('AllContents', {
   link: {
     type: DataTypes.STRING,
     allowNull: false,
-    validate: {
-      isUrl: true, 
-    },
   },
   lang: {
     type: DataTypes.ENUM('ar', 'en'),  

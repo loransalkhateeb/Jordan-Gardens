@@ -13,7 +13,7 @@ router.get('/getalllogos/:lang', logoController.getAllLogos);
 router.get('/getlogobyid/:id/:lang', logoController.getLogoById);
 
 
-router.put('/updatelogo/:id/:lang', multer.array('image', 10), logoController.updatelogo);
+router.put('/updatelogo/:id/:lang', multer.single('image'), logoController.updatelogo);
 
 
 router.delete('/deletelogo/:id/:lang', logoController.deletelogo);

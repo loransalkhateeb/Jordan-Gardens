@@ -1,39 +1,42 @@
-const { ContactUs } = require('../Models');
+const  ContactUs  = require('../Models/ContactUs');
 
-// إنشاء رسالة اتصال جديدة
+
 exports.createContactUs = async (req, res) => {
-  try {
-    const { phone_number, email_address, physical_address, first_name, last_name, message, lang } = req.body;
+    try {
+      const { phone_number, email_address, physical_address, first_name, last_name, message, lang } = req.body;
+  
+      const newContact = await ContactUs.create({
+        phone_number,
+        email_address,
+        physical_address,
+        first_name,
+        last_name,
+        message,
+        lang,
+      });
+  
+      res.status(201).json({
+        message: lang === 'ar' ? 'تم إرسال الرسالة بنجاح' : 'Message sent successfully',
+        contact: newContact,
+      });
+    } catch (error) {
+      console.error(error);
+  
 
-    // إنشاء سجل جديد في الـ ContactUs
-    const newContact = await ContactUs.create({
-      phone_number,
-      email_address,
-      physical_address,
-      first_name,
-      last_name,
-      message,
-      lang,
-    });
+      const lang = req.body.lang || 'en';
+      
+      res.status(500).json({
+        error: lang === 'ar' ? 'فشل في إرسال الرسالة' : 'Failed to send message',
+      });
+    }
+  };
+  
 
-    res.status(201).json({
-      message: lang === 'ar' ? 'تم إرسال الرسالة بنجاح' : 'Message sent successfully',
-      contact: newContact,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      error: lang === 'ar' ? 'فشل في إرسال الرسالة' : 'Failed to send message',
-    });
-  }
-};
-
-// الحصول على جميع الرسائل بناءً على اللغة
 exports.getAllContactUs = async (req, res) => {
   try {
-    const { lang } = req.params; // اللغة في الـ params
+    const { lang } = req.params; 
 
-    // استرجاع جميع الرسائل حسب اللغة
+
     const messages = await ContactUs.findAll({
       where: { lang },
     });
@@ -53,12 +56,12 @@ exports.getAllContactUs = async (req, res) => {
   }
 };
 
-// الحصول على رسالة بناءً على الـ id
+
 exports.getContactUsById = async (req, res) => {
   try {
     const { id, lang } = req.params;
 
-    // استرجاع الرسالة بناءً على الـ id واللغة
+ 
     const contact = await ContactUs.findOne({
       where: { id, lang },
     });
@@ -78,52 +81,59 @@ exports.getContactUsById = async (req, res) => {
   }
 };
 
-// تحديث رسالة الاتصال
+
 exports.updateContactUs = async (req, res) => {
-  try {
-    const { id, lang } = req.params;
-    const { phone_number, email_address, physical_address, first_name, last_name, message } = req.body;
+    try {
+      const { id } = req.params; 
+      const { phone_number, email_address, physical_address, first_name, last_name, message, lang } = req.body; 
+  
+   
+      const contact = await ContactUs.findOne({
+        where: { id },
+      });
+  
+      if (!contact) {
+        return res.status(404).json({
+          error: lang === 'ar' ? 'الرسالة غير موجودة' : 'Message not found',
+        });
+      }
 
-    // التحقق من وجود الرسالة
-    const contact = await ContactUs.findOne({
-      where: { id, lang },
-    });
-
-    if (!contact) {
-      return res.status(404).json({
-        error: lang === 'ar' ? 'الرسالة غير موجودة' : 'Message not found',
+      contact.phone_number = phone_number || contact.phone_number;
+      contact.email_address = email_address || contact.email_address;
+      contact.physical_address = physical_address || contact.physical_address;
+      contact.first_name = first_name || contact.first_name;
+      contact.last_name = last_name || contact.last_name;
+      contact.message = message || contact.message;
+  
+   
+      if (lang) {
+        contact.lang = lang; 
+      }
+  
+  
+      await contact.save();
+  
+      res.status(200).json({
+        message: lang === 'ar' ? 'تم تحديث الرسالة بنجاح' : 'Message updated successfully',
+        contact,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        error: req.body.lang === 'ar' ? 'فشل في تحديث الرسالة' : 'Failed to update message',
       });
     }
+  };
+  
 
-    // تحديث الحقول بناءً على الـ body
-    contact.phone_number = phone_number || contact.phone_number;
-    contact.email_address = email_address || contact.email_address;
-    contact.physical_address = physical_address || contact.physical_address;
-    contact.first_name = first_name || contact.first_name;
-    contact.last_name = last_name || contact.last_name;
-    contact.message = message || contact.message;
 
-    // حفظ التحديثات
-    await contact.save();
 
-    res.status(200).json({
-      message: lang === 'ar' ? 'تم تحديث الرسالة بنجاح' : 'Message updated successfully',
-      contact,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      error: lang === 'ar' ? 'فشل في تحديث الرسالة' : 'Failed to update message',
-    });
-  }
-};
 
-// حذف رسالة الاتصال
 exports.deleteContactUs = async (req, res) => {
   try {
     const { id, lang } = req.params;
 
-    // التحقق من وجود الرسالة
+
     const contact = await ContactUs.findOne({
       where: { id, lang },
     });
@@ -134,7 +144,7 @@ exports.deleteContactUs = async (req, res) => {
       });
     }
 
-    // حذف الرسالة
+ 
     await contact.destroy();
 
     res.status(200).json({
