@@ -4,25 +4,27 @@ const Blog  = require('../Models/blogs');
 exports.createBlog = async (req, res) => {
   try {
     const { title, description, lang } = req.body;
-    const image = req.file ? req.file.filename : null;  
 
+  
+    const image = req.file ? req.file.filename : null;
 
-    if (!title || !description) {
-      return res.status(400).json({ error: 'Title and description are required' });
+   
+    if (!title || !description || !image) {
+      return res.status(400).json({ error: 'Title, description, and image are required' });
     }
 
+ 
     if (!['ar', 'en'].includes(lang)) {
       return res.status(400).json({ error: 'Language must be either "ar" or "en"' });
     }
 
-
+  
     const newBlog = await Blog.create({
       title,
       description,
       lang,
-      images: image,  
+      image,  
     });
-
 
     res.status(201).json({ message: 'Blog created successfully', blog: newBlog });
   } catch (error) {
@@ -30,6 +32,7 @@ exports.createBlog = async (req, res) => {
     res.status(500).json({ error: 'Failed to create blog' });
   }
 };
+
 
 
 exports.getAllBlogs = async (req, res) => {
