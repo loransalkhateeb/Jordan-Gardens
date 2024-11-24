@@ -52,25 +52,28 @@ exports.getProjectImageById = async (req, res) => {
 
 exports.updateProjectImage = async (req, res) => {
   try {
-    const { id } = req.params;  
-    const { images } = req.body;  
-
-
+    const { id } = req.params;
+    const { images } = req.body;
     const image = await ProjectImages.findByPk(id);
     if (!image) {
       return res.status(404).json({ error: 'Project Image not found' });
     }
+    if (req.file) {
+      image.image = req.file.filename; 
+    }
 
+    if (images) {
+      image.images = images; 
+    }
 
-    image.images = images || image.images;
-
-    
     await image.save();
     res.status(200).json({ message: 'Project Image updated successfully', image });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Failed to update project image' });
   }
 };
+
 
 
 exports.deleteProjectImage = async (req, res) => {

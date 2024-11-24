@@ -13,7 +13,7 @@ router.get('/getallblogs/:lang', blogController.getAllBlogs);
 router.get('/getblogbyid/:id/:lang', blogController.getBlogById);
 
 
-router.put('/updateblog/:id/:lang', multer.array('image', 10), blogController.updateBlog);
+router.put('/updateblog/:id/:lang', multer.single('image', 10), blogController.updateBlog);
 
 
 router.delete('/deleteblog/:id/:lang', blogController.deleteBlog);
