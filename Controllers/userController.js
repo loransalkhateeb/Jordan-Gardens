@@ -3,11 +3,17 @@ const jwt = require('jsonwebtoken');
 const User = require('../Models/User');
 
 
+
+
+
 exports.signup = async (req, res) => {
   try {
     const { name, email, password, phone_number, role_user, lang } = req.body;
-
-    const hashedPassword = await bcrypt.hash(password, 10);
+    if (!password) {
+      return res.status(400).json({ error: 'Password is required' });
+    }
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds); 
 
     const newUser = await User.create({
       name,
@@ -18,11 +24,14 @@ exports.signup = async (req, res) => {
       lang,
     });
 
+  
     res.status(201).json({ message: 'User created successfully', user: newUser });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Failed to sign up user' });
   }
 };
+
 
 
 exports.getAllUsers = async (req, res) => {
@@ -110,10 +119,12 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    
     const user = await User.findOne({ where: { email } });
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
+
 
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
@@ -122,7 +133,10 @@ exports.login = async (req, res) => {
 
     const token = jwt.sign({ id: user.id, role: user.role_user }, 'secret_key', { expiresIn: '1h' });
 
+
+    res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); 
     res.status(200).json({ message: 'Login successful', token });
+
   } catch (error) {
     res.status(500).json({ error: 'Failed to login' });
   }
