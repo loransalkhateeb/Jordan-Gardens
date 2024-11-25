@@ -62,6 +62,11 @@ exports.createCareerDescription = async (req, res) => {
   exports.getCareerDescriptionById = async (req, res) => {
     try {
       const { id, lang } = req.params;
+      if (!id || !lang) {
+        return res.status(400).json({
+          error: lang === 'ar' ? 'الرجاء توفير المعلمات اللازمة' : 'Please provide the necessary parameters',
+        });
+      }
   
       const careerDescription = await CareerDescription.findOne({
         where: { id, lang },
@@ -81,6 +86,7 @@ exports.createCareerDescription = async (req, res) => {
       });
     }
   };
+  
   
 
   exports.updateCareerDescription = async (req, res) => {
