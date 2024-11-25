@@ -1,7 +1,7 @@
 const FeatureServices = require('../Models/featureservices');
 const Services = require('../Models/services'); 
 
-// Create Feature Service
+
 exports.createFeatureService = async (req, res) => {
   try {
     const { title, lang, service_id } = req.body;
@@ -72,6 +72,29 @@ exports.getFeatureServiceById = async (req, res) => {
 
 
 
+exports.getFeatureServiceByservice_Id = async (req, res) => {
+  try {
+    const { service_Id, lang } = req.params;  
+
+    
+    if (!['ar', 'en'].includes(lang)) {
+      return res.status(400).json({ error: 'Invalid language' });
+    }
+
+    const featureService = await FeatureServices.findOne({
+      where: { service_Id, lang }, 
+    });
+
+    if (!featureService) {
+      return res.status(404).json({ error: 'FeatureService by service_Id not found' });
+    }
+
+    res.status(200).json(featureService);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch feature service by service_Id' });
+  }
+};
+
 exports.updateFeatureService = async (req, res) => {
   try {
     const { id } = req.params;  
@@ -113,6 +136,54 @@ exports.updateFeatureService = async (req, res) => {
 
 
 
+
+
+exports.updateFeatureServicebyservice_id = async (req, res) => {
+  try {
+    const { service_id } = req.params;
+    const { title, lang } = req.body;
+
+   
+    if (lang && !['ar', 'en'].includes(lang)) {
+      return res.status(400).json({ error: 'Invalid language' });
+    }
+
+   
+    const featureService = await FeatureServices.findOne({
+      where: { service_id }, 
+    });
+
+
+    if (!featureService) {
+      return res.status(404).json({ error: 'FeatureService not found' });
+    }
+
+    
+    featureService.title = title || featureService.title;
+    featureService.service_id = service_id || featureService.service_id;
+
+    if (lang) {
+      featureService.lang = lang;
+    }
+
+  
+    if (req.file) {
+      featureService.image = req.file.filename;
+    }
+
+    await featureService.save();
+    res
+      .status(200)
+      .json({ message: 'FeatureService updated successfully', featureService });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to update feature service' });
+  }
+};
+
+
+
+
 exports.deleteFeatureService = async (req, res) => {
   try {
     const { id, lang } = req.params;  
@@ -134,5 +205,31 @@ exports.deleteFeatureService = async (req, res) => {
     res.status(200).json({ message: 'FeatureService deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete feature service' });
+  }
+};
+
+
+
+exports.deleteFeatureServiceByServiceId = async (req, res) => {
+  try {
+    const { service_id, lang } = req.params;  
+
+    
+    if (!['ar', 'en'].includes(lang)) {
+      return res.status(400).json({ error: 'Invalid language' });
+    }
+
+    const featureService = await FeatureServices.findOne({
+      where: { service_id, lang }, 
+    });
+
+    if (!featureService) {
+      return res.status(404).json({ error: 'FeatureService by service_id not found' });
+    }
+
+    await featureService.destroy();
+    res.status(200).json({ message: 'FeatureService service_id deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete feature service by service_id' });
   }
 };

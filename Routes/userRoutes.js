@@ -18,6 +18,6 @@ router.put('/update/:id/:lang', userController.updateUser);
 router.delete('/delete/:id', userController.deleteUser);
 
 
-router.post('/login', userController.login);
+router.post('/login/:lang', userController.login);
 
 module.exports = router;

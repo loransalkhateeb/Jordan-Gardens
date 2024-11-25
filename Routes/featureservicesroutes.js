@@ -12,11 +12,14 @@ router.get('/allservicefeature/:lang', featureServiceController.getAllServicesfe
 
 
 router.get('/featureservicesbyid/:id/:lang', featureServiceController.getFeatureServiceById);
+router.get('/featureservicesbyservice_Id/:service_Id/:lang', featureServiceController.getFeatureServiceByservice_Id);
 
 
 router.put('/updatefeatureservices/:id/:lang', multer.single('image'), featureServiceController.updateFeatureService);
+router.put('/updatefeatureservicesnyserviceid/:service_id/:lang', multer.single('image'), featureServiceController.updateFeatureServicebyservice_id);
 
 
 router.delete('/deletefeatureservices/:id/:lang', featureServiceController.deleteFeatureService);
+router.delete('/deletefeatureservicesbyserviceid/:service_id/:lang', featureServiceController.deleteFeatureServiceByServiceId);
 
 module.exports = router;
