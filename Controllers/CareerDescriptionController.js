@@ -48,7 +48,7 @@ exports.createCareerDescription = async (req, res) => {
           error: lang === 'ar' ? 'لا توجد أوصاف وظيفية لهذه اللغة' : 'No career descriptions found for this language'
         });
       }
-  
+      
       res.status(200).json(careerDescriptions);
     } catch (error) {
       console.error(error);

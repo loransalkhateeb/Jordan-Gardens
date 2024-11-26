@@ -22,6 +22,8 @@ const ChooseCompanyRoutes = require('./Routes/ChooseCompanyRoutes')
 const LogoesRoutes = require('./Routes/LogoRoutes')
 const CareerDescriptionRoutes = require('./Routes/CareersDescriptionRoutes')
 const ContactUsRoutes = require('./Routes/ContactUsRoutes')
+const CreateCareerRoutes = require('./Routes/CreateCareerRoutes')
+
 
 require('./Models/User');
 require('./Models/Hero');
@@ -58,7 +60,7 @@ app.use('/choose',ChooseCompanyRoutes)
 app.use('/logoes',LogoesRoutes)
 app.use('/careersdescription',CareerDescriptionRoutes)
 app.use('/ContactUs',ContactUsRoutes)
-
+app.use('/CreateCareer',CreateCareerRoutes)
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
