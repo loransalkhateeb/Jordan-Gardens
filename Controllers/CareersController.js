@@ -4,7 +4,6 @@ const Career = require('../Models/Careers');
 exports.createCareer = async (req, res) => {
   try {
     const { position, numberOfPositions, location, experience, lang } = req.body;
-
     const newCareer = await Career.create({
       position,
       numberOfPositions,

@@ -34,6 +34,34 @@ exports.signup = async (req, res) => {
 
 
 
+exports.createAdmin = async (req, res) => {
+  try {
+    const { name, email, password, phone_number, role_user, lang } = req.body;
+    if (!password) {
+      return res.status(400).json({ error: 'Password is required' });
+    }
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds); 
+
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      phone_number,
+      role_user:'admin',
+      lang,
+    });
+
+  
+    res.status(201).json({ message: 'Admin created successfully', user: newUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to  Create Admin' });
+  }
+};
+
+
+
 exports.getAllUsers = async (req, res) => {
   try {
     const { lang } = req.params;

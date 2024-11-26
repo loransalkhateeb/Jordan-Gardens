@@ -32,7 +32,7 @@ exports.getAllChoosesCompany = async (req, res) => {
       res.status(200).json(choosesompany);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Failed to fetch FeedBack' });
+      res.status(500).json({ error: 'Failed to fetch choosesompany' });
     }
   };
 
