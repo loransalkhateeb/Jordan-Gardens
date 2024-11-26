@@ -29,10 +29,10 @@ exports.getAllChoosesCompany = async (req, res) => {
   
       const choosesompany = await ChooeseCompanyModel.findAll({ where: { lang } });
   
-      res.status(200).json(feedbacks);
+      res.status(200).json(choosesompany);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Failed to fetch FeedBack' });
+      res.status(500).json({ error: 'Failed to fetch choosesompany' });
     }
   };
 

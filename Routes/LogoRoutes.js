@@ -4,7 +4,7 @@ const logoController = require('../Controllers/LogoController');
 const multer = require('../Config/multer'); 
 
 
-router.post('/createLogo', multer.array('image', 10), logoController.createLogo); 
+router.post('/createLogo', multer.single('image'), logoController.createLogo); 
 
 
 router.get('/getalllogos/:lang', logoController.getAllLogos);
