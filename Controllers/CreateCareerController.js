@@ -73,6 +73,26 @@ exports.getCareerById = async (req, res) => {
 };
 
 
+exports.getAllCVsByPositionName = async (req, res) => {
+  try {
+    const careers = await CreateCareer.findAll({
+      include: {
+        model: require('../Models/Careers'), 
+        attributes: ["position"], 
+      },
+    });
+
+    return res.status(200).json(careers);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Failed to fetch careers" });
+  }
+};
+
+
+
+
+
 exports.updateCareer = async (req, res) => {
   const { id } = req.params;
   const { firstName, lastName, email, phoneNumber, yearsOfExperience, uploadCv, skills, careerId } = req.body;
