@@ -45,7 +45,7 @@ exports.getAllServices = async (req, res) => {
 exports.getServiceById = async (req, res) => {
   try {
     const { id, lang } = req.params;
-    const service = await Services.findOne({ where: { id, lang } });
+    const service = await Services.findAll({ where: { id, lang } });
 
     if (!service) {
       return res.status(404).json({ error: 'Service not found' });

@@ -56,7 +56,7 @@ exports.getFeatureServiceById = async (req, res) => {
       return res.status(400).json({ error: 'Invalid language' });
     }
 
-    const featureService = await FeatureServices.findOne({
+    const featureService = await FeatureServices.findAll({
       where: { id, lang }, 
     });
 
