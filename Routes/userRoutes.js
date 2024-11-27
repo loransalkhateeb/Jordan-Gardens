@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../Controllers/userController');
+const { route } = require('./CreateCareerRoutes');
 
 
 router.post('/signup', userController.signup);
@@ -19,5 +20,7 @@ router.delete('/deleteuser/:id', userController.deleteUser);
 
 
 router.post('/login/:lang', userController.login);
+
+router.post('/logout', userController.logout);
 
 module.exports = router;

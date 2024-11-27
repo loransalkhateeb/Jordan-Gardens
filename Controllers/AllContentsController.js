@@ -1,4 +1,4 @@
-const AllContents = require('../models/AllContents');
+const AllContents = require('../Models/AllContents');
 
 
 exports.createContent = async (req, res) => {

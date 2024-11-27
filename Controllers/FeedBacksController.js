@@ -4,7 +4,6 @@ const Feedback = require('../Models/Feedback');
 exports.createFeedback = async (req, res) => {
   try {
     const { description, lang } = req.body;
-
  
     if (!['ar', 'en'].includes(lang)) {
       return res.status(400).json({ error: 'Invalid language' });

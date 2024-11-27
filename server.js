@@ -23,6 +23,7 @@ const LogoesRoutes = require('./Routes/LogoRoutes')
 const CareerDescriptionRoutes = require('./Routes/CareersDescriptionRoutes')
 const ContactUsRoutes = require('./Routes/ContactUsRoutes')
 const CreateCareerRoutes = require('./Routes/CreateCareerRoutes')
+const cookieParser = require('cookie-parser');
 
 
 require('./Models/User');
@@ -42,6 +43,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/users', userRoutes);
+
 app.use('/heroes', heroRoutes);
 app.use('/about',aboutRoutes)
 app.use('/services',servicesRoutes)
@@ -61,6 +63,22 @@ app.use('/logoes',LogoesRoutes)
 app.use('/careersdescription',CareerDescriptionRoutes)
 app.use('/ContactUs',ContactUsRoutes)
 app.use('/CreateCareer',CreateCareerRoutes)
+
+
+
+
+
+app.use(cors({
+  origin: 'http://localhost:3000',  
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],  
+  // allowedHeaders: ['Content-Type', 'Authorization'],  
+  credentials: true  
+}));
+app.use(express.json());
+app.use(cookieParser());
+
+
+app.options('*', cors());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
