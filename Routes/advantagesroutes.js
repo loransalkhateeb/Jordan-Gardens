@@ -9,6 +9,7 @@ router.post('/createadvantages', advantageController.createAdvantage);
 router.get('/getalladvantages/:lang', advantageController.getAllServicesadvantages);
 
 
+router.get('/getadvantagesnbyservicesid/:service_id/:lang', advantageController.getAdvantageByServicesId);
 router.get('/getadvantagesnbyid/:id/:lang', advantageController.getAdvantageById);
 
 

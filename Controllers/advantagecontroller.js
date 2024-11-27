@@ -68,6 +68,31 @@ exports.getAdvantageById = async (req, res) => {
   }
 };
 
+exports.getAdvantageByServicesId = async (req, res) => {
+  try {
+    const { service_id,lang } = req.params; 
+
+    // Validate the language
+    if (!['ar', 'en'].includes(lang)) {
+      return res.status(400).json({ error: 'Invalid language' });
+    }
+
+    // Fetch multiple advantages based on the language
+    const advantages = await Advantages.findAll({
+      where: {service_id, lang },  // Only filter by language
+    });
+
+    // Check if there are any advantages found
+    if (advantages.length === 0) {
+      return res.status(404).json({ error: 'No advantages found' });
+    }
+
+    // Return the array of advantages
+    res.status(200).json(advantages);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch advantages' });
+  }
+};
 
 exports.updateAdvantage = async (req, res) => {
     try {
