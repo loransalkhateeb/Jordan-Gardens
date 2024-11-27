@@ -7,7 +7,6 @@ const multer = require('../Config/multer');
 
 router.post('/createservicefeature', multer.single('image'), featureServiceController.createFeatureService);
 
-
 router.get('/allservicefeature/:lang', featureServiceController.getAllServicesfeatures);
 
 

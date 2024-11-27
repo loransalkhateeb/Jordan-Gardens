@@ -7,7 +7,8 @@ const multer = require('../Config/multer');
 router.post('/createcareer', multer.single('uploadCv'), CreateCareerController.createCareer);
 
 
-router.get('/allcareer', CreateCareerController.getAllCVs);
+router.get('/allcareer/:lang', CreateCareerController.getAllCVs);
+router.get('/allcvs/:lang', CreateCareerController.getAllCVsByPositionName);
 
 
 router.get('/careerbyid/:id/:lang', CreateCareerController.getCareerById);
@@ -21,6 +22,6 @@ router.put('/updatecareer/:id/:lang', multer.single('uploadCv'), CreateCareerCon
 
 
 
-router.delete('/deletecareerbycareerid/:careerId/:lang', CreateCareerController.deleteCareer);
+router.delete('/deletecareerbycareerid/:id', CreateCareerController.deleteCareer);
 
 module.exports = router;
