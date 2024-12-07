@@ -10,7 +10,11 @@ router.get('/getallcareerdescription/:lang', careerDescriptionController.getAllC
 
 
 router.get('/getcareerdescriptionbyid/:id/:lang', careerDescriptionController.getCareerDescriptionById);
+
 router.get('/getcareerdescriptionbycareer_id/:career_id/:lang', careerDescriptionController.getCareerDescriptionByCareer_Id);
+
+
+
 
 router.put('/careerdescriptionupdate/:id/:lang', careerDescriptionController.updateCareerDescription);
 router.put('/careerdescriptionupdatebycareerid/:career_id/:lang', careerDescriptionController.updateCareerDescriptionByCareerId);
